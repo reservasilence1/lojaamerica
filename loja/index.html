@@ -1,139 +1,290 @@
-<!DOCTYPE html><html lang="pt-br"><head>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Americanas 96 Anos</title>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root{
+      --brand:#f80030;
+      --brandDark:#cc0b2e;
+      --txt:#1f2a37;
+      --muted:#6b7280;
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --shadow:0 8px 20px rgba(0,0,0,.06);
+      --shadowHover:0 14px 30px rgba(0,0,0,.10);
+      --radius:14px;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
       color: #333;
     }
+
     .header {
-      background: #f80030;
+      background: var(--brand);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
     .header img { height: 28px; }
-    .header-icons span {
-      margin-left: 16px;
-      font-size: 20px;
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
+    .header-icons .icon-header {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      cursor: pointer;
+      filter: brightness(100);
+      opacity: .95;
+    }
+
     .search-bar {
       padding: 12px 16px;
       background: white;
+      border-bottom: 1px solid #eee;
     }
     .search-bar input {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    .breadcrumb {
+      padding: 12px 12px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      outline: none;
       font-size: 14px;
+    }
+    .search-bar input:focus{
+      border-color:#fca5a5;
+      box-shadow: 0 0 0 4px rgba(248,0,48,.10);
+    }
+
+    .breadcrumb {
+      font-size: 13px;
       color: #777;
       padding: 12px 16px 4px;
     }
     .section-title {
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 800;
       padding: 4px 16px 12px;
-      color: #000;
+      color: #111;
+      letter-spacing: .2px;
     }
+
+    /* ======== GRID MELHORADO (APENAS PRODUTOS) ======== */
     .product-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
       padding: 0 16px 40px;
     }
+    @media (min-width: 720px){
+      .product-grid{
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1040px;
+        margin: 0 auto;
+      }
+    }
+
     .product-card {
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-      text-align: center;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(229,231,235,.7);
+      overflow: hidden;
+      text-align: left;
       position: relative;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
-    .product-card img {
+    .product-card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadowHover);
+    }
+
+    .unavailable{
+      opacity: .55;
+      filter: grayscale(.05);
+    }
+
+    /* Badge estilo marketplace */
+    .badge-desconto {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: linear-gradient(135deg, var(--brand), var(--brandDark));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 6px 16px rgba(248,0,48,.25);
+      z-index: 5;
+      letter-spacing:.2px;
+    }
+
+    /* Área do carrossel */
+    .product-media{
+      position: relative;
+      background: #fff;
+      padding: 10px 10px 0;
+    }
+
+    .carousel{
+      position: relative;
       width: 100%;
-      max-width: 120px;
-      margin-bottom: 10px;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
     }
+
+    .carousel-track{
+      display: flex;
+      height: 100%;
+      transition: transform .35s ease;
+      will-change: transform;
+      touch-action: pan-y;
+    }
+
+    .carousel-slide{
+      min-width: 100%;
+      height: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+    }
+
+    .carousel-slide img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+    }
+
+    .carousel-btn{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 6px 14px rgba(0,0,0,.12);
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity: 0;
+      transition: opacity .18s ease;
+      z-index: 6;
+    }
+    .product-card:hover .carousel-btn{
+      opacity: 1;
+    }
+    .carousel-btn:active{ transform: translateY(-50%) scale(.98); }
+
+    .carousel-btn.prev{ left: 10px; }
+    .carousel-btn.next{ right: 10px; }
+
+    .carousel-btn svg{
+      width: 18px; height: 18px;
+      fill:#111;
+    }
+
+    .carousel-dots{
+      display:flex;
+      justify-content:center;
+      gap:6px;
+      padding: 10px 0 6px;
+    }
+    .dot{
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #d1d5db;
+      border: none;
+    }
+    .dot.active{ background: var(--brand); }
+
+    /* Conteúdo do card */
+    .product-body{
+      padding: 10px 12px 12px;
+    }
+
     .product-name {
-      font-size: 14px;
-      font-weight: bold;
-      color: #222;
+      font-size: 13.5px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #111827;
+      min-height: 34px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
-    .product-price {
-      color: #C8102E;
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 8px;
+
+    .price-block{
+      margin-top: 10px;
     }
+
     .old-price {
       text-decoration: line-through;
-      font-size: 13px;
-      color: #777;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 2px;
     }
+
+    .product-price {
+      color: #C8102E;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+
+    .sub-price{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
     .btn-add {
-      background: #C8102E;
-      color: white;
+      margin-top: 12px;
+      background: var(--brand);
+      color: #fff;
       border: none;
-      border-radius: 6px;
-      padding: 8px;
+      border-radius: 10px;
+      padding: 11px 12px;
       width: 100%;
       font-size: 14px;
+      font-weight: 800;
       cursor: pointer;
+      transition: filter .15s ease, transform .12s ease;
     }
-    .unavailable {
-      opacity: 0.5;
-    }
+    .btn-add:hover{ filter: brightness(.95); }
+    .btn-add:active{ transform: scale(.99); }
+
     .btn-unavailable {
-      background: #aaa;
+      background: #9ca3af;
       cursor: not-allowed;
     }
 
-    .badge-desconto {
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      background: linear-gradient(45deg, #e7153e, #cc0b2e);
-      color: #fff;
-      font-size: 11px;
-      font-weight: bold;
-      padding: 6px 10px;
-      border-radius: 0 0 10px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    footer {
-      background:#eee;
-      padding: 24px 16px;
-      font-size: 14px;
-      color:#333;
-    }
-    footer a {
-      color: #333;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 4px;
-    }
-    .selo-container {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-    .selo-container img {
-      width: 60px;
-      height: auto;
-    }
-
-    /* Pop-ups */
+    /* Pop-ups (mantidos) */
     .popup-container {
       position: fixed;
       left: 10px;
@@ -174,32 +325,42 @@
       0% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-100%); }
     }
-    .header-icons {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
 
-.header-icons .icon-header {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  cursor: pointer;
-}
-
+    footer {
+      background:#eee;
+      padding: 24px 16px;
+      font-size: 14px;
+      color:#333;
+    }
+    footer a {
+      color: #333;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .selo-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .selo-container img {
+      width: 60px;
+      height: auto;
+    }
   </style>
- 
+
 </head>
 <body>
 
   <div class="header">
-    <img src="/loja/images/americanas.png" alt="Logo Sadia">
+    <img src="/loja/images/americanas.png" alt="Logo Americanas">
     <div class="header-icons">
-  <img src="/loja/images/loja.svg" alt="Perfil" class="icon-header">
-  <img src="/loja/images/coracao.svg" alt="Favoritos" class="icon-header">
-  <img src="/loja/images/carrinho.svg" alt="Carrinho" class="icon-header">
-</div>
-
+      <img src="/loja/images/loja.svg" alt="Perfil" class="icon-header">
+      <img src="/loja/images/coracao.svg" alt="Favoritos" class="icon-header">
+      <img src="/loja/images/carrinho.svg" alt="Carrinho" class="icon-header">
+    </div>
   </div>
 
   <div class="search-bar">
@@ -208,106 +369,262 @@
 
   <div class="breadcrumb">Home > <strong>Premium</strong></div>
   <div class="section-title">Linha Premium</div>
-<!-- TITULO CHAMATIVO -->
-
-
-
 
   <div class="product-grid">
 
-    <!-- Ordem original com badges -->
-    <!-- indisponíveis -->
+    <!-- 1) Indisponível -->
     <div class="product-card unavailable">
-      <img src="/loja/images/imagemkit1.png" alt="Kit Glória">
-      <div class="product-name">Kit Glória</div>
-      <button class="btn-add btn-unavailable" disabled="">Indisponível</button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit1.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
 
+      <div class="product-body">
+        <div class="product-name">Kit Glória</div>
+        <button class="btn-add btn-unavailable" disabled>Indisponível</button>
+      </div>
     </div>
 
+    <!-- 2) Kit Paz -->
     <div class="product-card">
       <span class="badge-desconto">100% DESCONTO</span>
-      <img src="/loja/images/imagemkit2.png" alt="Kit Paz">
-      <div class="product-name">Kit Paz</div>
-      <div class="old-price">de R$ 754,90</div>
-      <div class="product-price">por R$ 0,00</div>
-     <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/ee918dbc-bf8d-4ef9-bccd-77a6740b2426'">
-    Resgatar
-  </button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit2.png,/loja/images/imagemkit2.png,/loja/images/imagemkit2.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
 
+      <div class="product-body">
+        <div class="product-name">Kit Paz</div>
+        <div class="price-block">
+          <div class="old-price">de R$ 754,90</div>
+          <div class="product-price">por R$ 0,00</div>
+          <div class="sub-price">frete calculado no checkout</div>
+        </div>
+        <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/ee918dbc-bf8d-4ef9-bccd-77a6740b2426'">
+          Resgatar
+        </button>
+      </div>
     </div>
 
+    <!-- 3) Kit Sadia Bassi -->
     <div class="product-card">
       <span class="badge-desconto">100% DESCONTO</span>
-      <img src="/loja/images/imagemkit3.png" alt="Kit Sadia Bassi">
-      <div class="product-name">Kit Sadia Bassi</div>
-      <div class="old-price">de R$ 584,90</div>
-      <div class="product-price">por R$ 0,00</div>
-      <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/b0a5c552-757a-4a2f-9b77-c22f26b69de4'">
-    Resgatar
-  </button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit3.png,/loja/images/imagemkit3.png,/loja/images/imagemkit3.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Sadia Bassi</div>
+        <div class="price-block">
+          <div class="old-price">de R$ 584,90</div>
+          <div class="product-price">por R$ 0,00</div>
+          <div class="sub-price">frete calculado no checkout</div>
+        </div>
+        <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/b0a5c552-757a-4a2f-9b77-c22f26b69de4'">
+          Resgatar
+        </button>
+      </div>
     </div>
 
+    <!-- 4) Kit Harmonia -->
     <div class="product-card">
       <span class="badge-desconto">100% DESCONTO</span>
-      <img src="/loja/images/imagemkit4.png" alt="Kit Harmonia">
-      <div class="product-name">Kit Harmonia</div>
-      <div class="old-price">de R$ 548,90</div>
-      <div class="product-price">por R$ 0,00</div>
-     <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/49f716e3-f0f2-40ac-8bcd-654f5673bbef'">
-    Resgatar
-  </button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit4.png,/loja/images/imagemkit4.png,/loja/images/imagemkit4.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Harmonia</div>
+        <div class="price-block">
+          <div class="old-price">de R$ 548,90</div>
+          <div class="product-price">por R$ 0,00</div>
+          <div class="sub-price">frete calculado no checkout</div>
+        </div>
+        <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/49f716e3-f0f2-40ac-8bcd-654f5673bbef'">
+          Resgatar
+        </button>
+      </div>
     </div>
 
+    <!-- 5) Indisponível -->
     <div class="product-card unavailable">
-      <img src="/loja/images/imagemkit5.png" alt="Kit Esperança">
-      <div class="product-name">Kit Esperança</div>
-      <button class="btn-add btn-unavailable" disabled="">Indisponível</button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit5.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Esperança</div>
+        <button class="btn-add btn-unavailable" disabled>Indisponível</button>
+      </div>
     </div>
 
+    <!-- 6) Indisponível -->
     <div class="product-card unavailable">
-      <img src="/loja/images/imagemkit6.png" alt="Kit Emoção">
-      <div class="product-name">Kit Emoção</div>
-      <button class="btn-add btn-unavailable" disabled="">Indisponível</button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit6.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Emoção</div>
+        <button class="btn-add btn-unavailable" disabled>Indisponível</button>
+      </div>
     </div>
 
+    <!-- 7) Kit Luz -->
     <div class="product-card">
       <span class="badge-desconto">100% DESCONTO</span>
-      <img src="/loja/images/imagemkit7.png" alt="Kit Luz">
-      <div class="product-name">Kit Luz</div>
-      <div class="old-price">de R$ 345,90</div>
-      <div class="product-price">por R$ 0,00</div>
-    <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/2f2aac4f-b133-43c5-adb1-36606f4f93e9'">
-    Resgatar
-  </button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit7.png,/loja/images/imagemkit7.png,/loja/images/imagemkit7.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Luz</div>
+        <div class="price-block">
+          <div class="old-price">de R$ 345,90</div>
+          <div class="product-price">por R$ 0,00</div>
+          <div class="sub-price">frete calculado no checkout</div>
+        </div>
+        <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/2f2aac4f-b133-43c5-adb1-36606f4f93e9'">
+          Resgatar
+        </button>
+      </div>
     </div>
 
+    <!-- 8) Kit Amor -->
     <div class="product-card">
       <span class="badge-desconto">100% DESCONTO</span>
-      <img src="/loja/images/imagemkit8.png" alt="Kit Amor">
-      <div class="product-name">Kit Amor</div>
-      <div class="old-price">de R$ 309,90</div>
-      <div class="product-price">por R$ 0,00</div>
-      <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/f15aff0c-c7ce-415b-897e-f1a1aa8c891b'">
-    Resgatar
-  </button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit8.png,/loja/images/imagemkit8.png,/loja/images/imagemkit8.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Amor</div>
+        <div class="price-block">
+          <div class="old-price">de R$ 309,90</div>
+          <div class="product-price">por R$ 0,00</div>
+          <div class="sub-price">frete calculado no checkout</div>
+        </div>
+        <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/f15aff0c-c7ce-415b-897e-f1a1aa8c891b'">
+          Resgatar
+        </button>
+      </div>
     </div>
 
+    <!-- 9) Indisponível -->
     <div class="product-card unavailable">
-      <img src="/loja/images/imagemkit9.png" alt="Kit Renovação">
-      <div class="product-name">Kit Renovação</div>
-      <button class="btn-add btn-unavailable" disabled="">Indisponível</button>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit9.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-name">Kit Renovação</div>
+        <button class="btn-add btn-unavailable" disabled>Indisponível</button>
+      </div>
     </div>
 
+    <!-- 10) Indisponível -->
     <div class="product-card unavailable">
-      <img src="/loja/images/imagemkit10.png" alt="Kit Veg">
-      <div class="product-name">Kit Veg</div>
-      <button class="btn-add btn-unavailable" disabled="">Indisponível</button>
-    </div>
+      <div class="product-media">
+        <div class="carousel" data-images="/loja/images/imagemkit10.png">
+          <div class="carousel-track"></div>
+          <button class="carousel-btn prev" type="button" aria-label="Anterior">
+            <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
+          </button>
+          <button class="carousel-btn next" type="button" aria-label="Próximo">
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+          </button>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
 
+      <div class="product-body">
+        <div class="product-name">Kit Veg</div>
+        <button class="btn-add btn-unavailable" disabled>Indisponível</button>
+      </div>
+    </div>
 
   </div>
 
-  <!-- Notificações -->
+  <!-- Notificações (mantidas) -->
   <div class="popup-container" style="animation: fadeOutUp 8s 3s forwards;">
     <img src="/loja/images/foto1.jpg" class="popup-foto">
     <div class="popup-text">
@@ -340,7 +657,7 @@
     </div>
   </div>
 
-  <!-- Rodapé -->
+  <!-- Rodapé (mantido) -->
   <footer>
     <div style="margin-bottom: 20px;">
       <strong>INSTITUCIONAL</strong><br>
@@ -350,7 +667,6 @@
       <a href="#">Política de privacidade</a>
     </div>
 
-  
     <div style="margin-bottom: 20px;">
       <strong>ATENDIMENTO</strong><br>
       americanas@promo96anos.com<br>
@@ -366,6 +682,97 @@
     </div>
   </footer>
 
+  <script>
+    (function(){
+      const carousels = document.querySelectorAll(".carousel");
 
+      carousels.forEach((carousel) => {
+        const track = carousel.querySelector(".carousel-track");
+        const dotsWrap = carousel.parentElement.querySelector(".carousel-dots");
+        const prevBtn = carousel.querySelector(".prev");
+        const nextBtn = carousel.querySelector(".next");
 
-</body></html>
+        const images = (carousel.getAttribute("data-images") || "")
+          .split(",")
+          .map(s => s.trim())
+          .filter(Boolean);
+
+        // fallback para 1 imagem vazia
+        const imgs = images.length ? images : [""];
+
+        // build slides
+        track.innerHTML = imgs.map(src => `
+          <div class="carousel-slide">
+            <img src="${src}" alt="">
+          </div>
+        `).join("");
+
+        // build dots
+        dotsWrap.innerHTML = imgs.map((_, i) => `
+          <button class="dot ${i === 0 ? "active" : ""}" type="button" aria-label="Ir para imagem ${i+1}"></button>
+        `).join("");
+
+        const dots = Array.from(dotsWrap.querySelectorAll(".dot"));
+        let idx = 0;
+        let startX = 0;
+        let dragging = false;
+        let autoplayTimer = null;
+
+        function setIndex(newIdx){
+          idx = (newIdx + imgs.length) % imgs.length;
+          track.style.transform = `translateX(-${idx * 100}%)`;
+          dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+        }
+
+        function next(){ setIndex(idx + 1); }
+        function prev(){ setIndex(idx - 1); }
+
+        // hide controls if single image
+        if (imgs.length <= 1){
+          prevBtn.style.display = "none";
+          nextBtn.style.display = "none";
+          dotsWrap.style.display = "none";
+        }
+
+        prevBtn.addEventListener("click", prev);
+        nextBtn.addEventListener("click", next);
+
+        dots.forEach((d, i) => d.addEventListener("click", () => setIndex(i)));
+
+        // touch swipe
+        carousel.addEventListener("pointerdown", (e) => {
+          dragging = true;
+          startX = e.clientX;
+          carousel.setPointerCapture(e.pointerId);
+        });
+
+        carousel.addEventListener("pointerup", (e) => {
+          if (!dragging) return;
+          dragging = false;
+          const dx = e.clientX - startX;
+          if (Math.abs(dx) > 35){
+            dx < 0 ? next() : prev();
+          }
+        });
+
+        // autoplay leve (só se tiver mais de 1)
+        function startAutoplay(){
+          if (imgs.length <= 1) return;
+          stopAutoplay();
+          autoplayTimer = setInterval(next, 3500);
+        }
+        function stopAutoplay(){
+          if (autoplayTimer) clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+
+        carousel.addEventListener("mouseenter", stopAutoplay);
+        carousel.addEventListener("mouseleave", startAutoplay);
+
+        startAutoplay();
+      });
+    })();
+  </script>
+
+</body>
+</html>
