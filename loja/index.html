@@ -19,6 +19,7 @@
       --shadow:0 8px 20px rgba(0,0,0,.06);
       --shadowHover:0 14px 30px rgba(0,0,0,.10);
       --radius:14px;
+      --star:#fbbf24;
     }
 
     body {
@@ -69,6 +70,31 @@
     .search-bar input:focus{
       border-color:#fca5a5;
       box-shadow: 0 0 0 4px rgba(248,0,48,.10);
+    }
+
+    /* ======== (2) BANNER ABAIXO DA PESQUISA (1296x108) ======== */
+    .top-banner-wrap{
+      background:#fff;
+      border-bottom: 1px solid #eee;
+      padding: 10px 16px 14px;
+    }
+    .top-banner{
+      width: 100%;
+      max-width: 1296px;
+      aspect-ratio: 12 / 1; /* 1296x108 */
+      height: auto;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(229,231,235,.9);
+      box-shadow: 0 6px 14px rgba(0,0,0,.06);
+      background:#fff;
+    }
+    .top-banner img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit: cover;
     }
 
     .breadcrumb {
@@ -169,11 +195,13 @@
       background:#fff;
     }
 
+    /* ======== (1) IMAGEM PREENCHENDO O QUADRADO (1080x1080) ======== */
     .carousel-slide img{
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      padding: 10px;
+      object-fit: cover;   /* preenche */
+      padding: 0;          /* sem borda interna */
+      display:block;
     }
 
     .carousel-btn{
@@ -237,6 +265,30 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+
+    /* ======== (3) AVALIAÇÕES ======== */
+    .rating{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-top: 6px;
+    }
+    .stars{
+      display:flex;
+      gap:2px;
+      line-height:0;
+    }
+    .star{
+      width: 14px;
+      height: 14px;
+      fill: var(--star);
+      flex: 0 0 auto;
+    }
+    .rating-number{
+      font-size: 12px;
+      font-weight: 800;
+      color:#374151;
     }
 
     .price-block{
@@ -367,6 +419,14 @@
     <input type="text" placeholder="O que você procura?">
   </div>
 
+  <!-- (2) Banner abaixo do bloco de pesquisa (1296x108) -->
+  <div class="top-banner-wrap">
+    <div class="top-banner">
+      <!-- troque o src pelo seu banner (ideal 1296x108) -->
+      <img src="/loja/images/banner.png" alt="Banner">
+    </div>
+  </div>
+
   <div class="breadcrumb">Home > <strong>Premium</strong></div>
   <div class="section-title">Linha Premium</div>
 
@@ -389,13 +449,27 @@
 
       <div class="product-body">
         <div class="product-name">Kit Glória</div>
+
+        <!-- (3) Avaliação -->
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <button class="btn-add btn-unavailable" disabled>Indisponível</button>
       </div>
     </div>
 
     <!-- 2) Kit Paz -->
     <div class="product-card">
-      <span class="badge-desconto">100% DESCONTO</span>
+      <!-- (1) Desconto 75% OFF -->
+      <span class="badge-desconto">75% OFF</span>
       <div class="product-media">
         <div class="carousel" data-images="/loja/images/imagemkit2.png,/loja/images/imagemkit2.png,/loja/images/imagemkit2.png">
           <div class="carousel-track"></div>
@@ -411,9 +485,22 @@
 
       <div class="product-body">
         <div class="product-name">Kit Paz</div>
+
+        <!-- (3) Avaliação -->
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <div class="price-block">
           <div class="old-price">de R$ 754,90</div>
-          <div class="product-price">por R$ 0,00</div>
+          <div class="product-price">por R$ 188,72</div>
           <div class="sub-price">frete calculado no checkout</div>
         </div>
         <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/ee918dbc-bf8d-4ef9-bccd-77a6740b2426'">
@@ -424,7 +511,7 @@
 
     <!-- 3) Kit Sadia Bassi -->
     <div class="product-card">
-      <span class="badge-desconto">100% DESCONTO</span>
+      <span class="badge-desconto">75% OFF</span>
       <div class="product-media">
         <div class="carousel" data-images="/loja/images/imagemkit3.png,/loja/images/imagemkit3.png,/loja/images/imagemkit3.png">
           <div class="carousel-track"></div>
@@ -440,9 +527,21 @@
 
       <div class="product-body">
         <div class="product-name">Kit Sadia Bassi</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <div class="price-block">
           <div class="old-price">de R$ 584,90</div>
-          <div class="product-price">por R$ 0,00</div>
+          <div class="product-price">por R$ 146,22</div>
           <div class="sub-price">frete calculado no checkout</div>
         </div>
         <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/b0a5c552-757a-4a2f-9b77-c22f26b69de4'">
@@ -453,7 +552,7 @@
 
     <!-- 4) Kit Harmonia -->
     <div class="product-card">
-      <span class="badge-desconto">100% DESCONTO</span>
+      <span class="badge-desconto">75% OFF</span>
       <div class="product-media">
         <div class="carousel" data-images="/loja/images/imagemkit4.png,/loja/images/imagemkit4.png,/loja/images/imagemkit4.png">
           <div class="carousel-track"></div>
@@ -461,7 +560,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -469,9 +568,21 @@
 
       <div class="product-body">
         <div class="product-name">Kit Harmonia</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <div class="price-block">
           <div class="old-price">de R$ 548,90</div>
-          <div class="product-price">por R$ 0,00</div>
+          <div class="product-price">por R$ 137,22</div>
           <div class="sub-price">frete calculado no checkout</div>
         </div>
         <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/49f716e3-f0f2-40ac-8bcd-654f5673bbef'">
@@ -489,7 +600,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -497,6 +608,18 @@
 
       <div class="product-body">
         <div class="product-name">Kit Esperança</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <button class="btn-add btn-unavailable" disabled>Indisponível</button>
       </div>
     </div>
@@ -510,7 +633,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -518,13 +641,25 @@
 
       <div class="product-body">
         <div class="product-name">Kit Emoção</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <button class="btn-add btn-unavailable" disabled>Indisponível</button>
       </div>
     </div>
 
     <!-- 7) Kit Luz -->
     <div class="product-card">
-      <span class="badge-desconto">100% DESCONTO</span>
+      <span class="badge-desconto">75% OFF</span>
       <div class="product-media">
         <div class="carousel" data-images="/loja/images/imagemkit7.png,/loja/images/imagemkit7.png,/loja/images/imagemkit7.png">
           <div class="carousel-track"></div>
@@ -532,7 +667,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -540,9 +675,21 @@
 
       <div class="product-body">
         <div class="product-name">Kit Luz</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <div class="price-block">
           <div class="old-price">de R$ 345,90</div>
-          <div class="product-price">por R$ 0,00</div>
+          <div class="product-price">por R$ 86,47</div>
           <div class="sub-price">frete calculado no checkout</div>
         </div>
         <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/2f2aac4f-b133-43c5-adb1-36606f4f93e9'">
@@ -553,7 +700,7 @@
 
     <!-- 8) Kit Amor -->
     <div class="product-card">
-      <span class="badge-desconto">100% DESCONTO</span>
+      <span class="badge-desconto">75% OFF</span>
       <div class="product-media">
         <div class="carousel" data-images="/loja/images/imagemkit8.png,/loja/images/imagemkit8.png,/loja/images/imagemkit8.png">
           <div class="carousel-track"></div>
@@ -561,7 +708,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -569,9 +716,21 @@
 
       <div class="product-body">
         <div class="product-name">Kit Amor</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <div class="price-block">
           <div class="old-price">de R$ 309,90</div>
-          <div class="product-price">por R$ 0,00</div>
+          <div class="product-price">por R$ 77,47</div>
           <div class="sub-price">frete calculado no checkout</div>
         </div>
         <button class="btn-add" onclick="window.location.href='https://www.pay-pagamentos.link/checkout/f15aff0c-c7ce-415b-897e-f1a1aa8c891b'">
@@ -589,7 +748,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -597,6 +756,18 @@
 
       <div class="product-body">
         <div class="product-name">Kit Renovação</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <button class="btn-add btn-unavailable" disabled>Indisponível</button>
       </div>
     </div>
@@ -610,7 +781,7 @@
             <svg viewBox="0 0 24 24"><path d="M15.5 19a1 1 0 0 1-.7-.29l-6-6a1 1 0 0 1 0-1.42l6-6a1 1 0 1 1 1.4 1.42L11.91 12l4.29 4.29A1 1 0 0 1 15.5 19z"/></svg>
           </button>
           <button class="carousel-btn next" type="button" aria-label="Próximo">
-            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 1 0 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M8.5 19a1 1 0 0 1-.7-1.71L12.09 12 7.8 7.71A1 1 0 1 1 9.2 6.29l6 6a1 1 0 0 1 0 1.42l-6 6A1 1 0 0 1 8.5 19z"/></svg>
           </button>
         </div>
         <div class="carousel-dots"></div>
@@ -618,6 +789,18 @@
 
       <div class="product-body">
         <div class="product-name">Kit Veg</div>
+
+        <div class="rating" data-rating>
+          <div class="stars" aria-label="Avaliação">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="rating-number">4.9</div>
+        </div>
+
         <button class="btn-add btn-unavailable" disabled>Indisponível</button>
       </div>
     </div>
@@ -770,6 +953,17 @@
         carousel.addEventListener("mouseleave", startAutoplay);
 
         startAutoplay();
+      });
+
+      // ======== (3) Ratings variando 4.7 a 5.0 ========
+      // Aplica um rating "aleatório" e consistente por card (não muda a cada reload com base no índice)
+      const ratingEls = document.querySelectorAll(".rating[data-rating]");
+      ratingEls.forEach((el, index) => {
+        // 4.7 .. 5.0 (1 casa)
+        const r = Math.min(5.0, 4.7 + (Math.random() * 0.3));
+        const rating = (Math.round(r * 10) / 10).toFixed(1);
+        const num = el.querySelector(".rating-number");
+        if (num) num.textContent = rating;
       });
     })();
   </script>
